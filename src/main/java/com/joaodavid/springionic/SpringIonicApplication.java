@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.joaodavid.springionic.model.Categoria;
 import com.joaodavid.springionic.model.Cidade;
+import com.joaodavid.springionic.model.Cliente;
+import com.joaodavid.springionic.model.Endereco;
 import com.joaodavid.springionic.model.Estado;
 import com.joaodavid.springionic.model.Produto;
+import com.joaodavid.springionic.model.enums.TipoCliente;
 import com.joaodavid.springionic.repository.CategoriaRepository;
 import com.joaodavid.springionic.repository.CidadeRepository;
+import com.joaodavid.springionic.repository.ClienteRepository;
+import com.joaodavid.springionic.repository.EnderecoRepository;
 import com.joaodavid.springionic.repository.EstadoRepository;
 import com.joaodavid.springionic.repository.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class SpringIonicApplication implements CommandLineRunner{
 	
 	@Autowired
 	private EstadoRepository estadorepository;
+	
+	@Autowired
+	private EnderecoRepository enderecorepository;
+	
+	@Autowired
+	private ClienteRepository clienterepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringIonicApplication.class, args);
@@ -68,6 +79,18 @@ public class SpringIonicApplication implements CommandLineRunner{
 		estadorepository.save(est1);
 		estadorepository.save(est2);
 		cidaderepository.saveAll(Arrays.asList(c1,c2,c3));
+		
+		Cliente cli1 = new Cliente(null,"Maria Silva","maria@gmail.com","36378912377",TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("23763323","93838392"));
+		
+		Endereco e1 = new Endereco(null,"Rua Flores","300","Apto 203","Jardim","38220834",cli1,c1);
+		Endereco e2 = new Endereco(null,"Avenida Matos","105","Sala 800","Centro","38777012",cli1,c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		clienterepository.save(cli1);
+		enderecorepository.save(e1);
+		enderecorepository.save(e2);
 		
 		
 	}

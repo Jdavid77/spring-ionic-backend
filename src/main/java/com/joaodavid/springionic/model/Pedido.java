@@ -32,13 +32,11 @@ public class Pedido implements Serializable{
 	@JsonFormat(pattern = "dd/mm/yyyy HH:mm")
 	private Date instant;
 	
-	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, mappedBy="pedido")
 	private Pagamento pagamento;
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
-	@JsonManagedReference
 	private Cliente cliente;
 	
 	@ManyToOne

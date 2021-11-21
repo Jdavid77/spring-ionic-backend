@@ -2,8 +2,10 @@ package com.joaodavid.springionic.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -36,6 +39,9 @@ public class Produto implements Serializable {
 	@JoinTable(name = "PRODUTO_CATEGORIA",joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
 	
+	@OneToMany(mappedBy="id.produto")
+	private Set<ItemPedido> Itens = new HashSet<>();
+	
 	public Produto() {
 		
 	}
@@ -47,6 +53,13 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
+	public List<Pedido> pedidos() {
+		List<Pedido> lista = new ArrayList<>();
+		for(ItemPedido x : Itens) {
+			lista.add(x.getPedido());
+		}
+		return lista;
+	}
 	
 	
 	public Integer getId() {
@@ -96,6 +109,14 @@ public class Produto implements Serializable {
 			return false;
 		Produto other = (Produto) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public Set<ItemPedido> getItens() {
+		return Itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		Itens = itens;
 	}
 	
 	

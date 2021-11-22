@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.joaodavid.springionic.DTO.CategoriaDTO;
 import com.joaodavid.springionic.model.Categoria;
+import com.joaodavid.springionic.model.Cliente;
 import com.joaodavid.springionic.repository.CategoriaRepository;
 import com.joaodavid.springionic.service.exceptions.DataIntegrityException;
 import com.joaodavid.springionic.service.exceptions.ObjectNotFoundException;
@@ -36,8 +37,9 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(Categoria obj) {
-		findById(obj.getId());
-		return repository.save(obj);
+		Categoria newObj = findById(obj.getId());
+		updateData(newObj,obj);
+		return repository.save(newObj);
 	}
 	
 	public void delete(Integer id) {
@@ -60,5 +62,10 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		return new Categoria(objDTO.getId(),objDTO.getName());
+	}
+	
+	private void updateData(Categoria newObj,Categoria obj) {
+		newObj.setName(obj.getName());
+
 	}
 }

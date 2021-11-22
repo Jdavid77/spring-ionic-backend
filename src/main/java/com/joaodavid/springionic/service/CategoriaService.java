@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.joaodavid.springionic.DTO.CategoriaDTO;
 import com.joaodavid.springionic.model.Categoria;
 import com.joaodavid.springionic.repository.CategoriaRepository;
 import com.joaodavid.springionic.service.exceptions.DataIntegrityException;
@@ -55,5 +56,9 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage,String orderBy,String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage,Direction.valueOf(direction),orderBy);
 		return repository.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(),objDTO.getName());
 	}
 }

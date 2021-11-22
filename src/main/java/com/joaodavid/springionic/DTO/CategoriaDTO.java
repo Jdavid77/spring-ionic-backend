@@ -2,7 +2,12 @@ package com.joaodavid.springionic.DTO;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.joaodavid.springionic.model.Categoria;
+
 
 public class CategoriaDTO implements Serializable{
 
@@ -13,6 +18,9 @@ public class CategoriaDTO implements Serializable{
 	
 	
 	private Integer id;
+	
+	@NotEmpty(message="Preenchimento Obrigatório!")
+	@Length(min=5,max=80,message="Tamanho entre 5 e 80 carateres")
 	private String name;
 	
 	public CategoriaDTO() {

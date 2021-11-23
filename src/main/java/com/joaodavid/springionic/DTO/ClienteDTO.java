@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.joaodavid.springionic.model.Cliente;
+import com.joaodavid.springionic.service.validation.ClientUpdate;
 
+@ClientUpdate
 public class ClienteDTO implements Serializable{
 
 	/**

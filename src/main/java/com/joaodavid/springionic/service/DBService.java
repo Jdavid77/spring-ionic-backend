@@ -20,6 +20,7 @@ import com.joaodavid.springionic.model.PagamentoComCartao;
 import com.joaodavid.springionic.model.Pedido;
 import com.joaodavid.springionic.model.Produto;
 import com.joaodavid.springionic.model.enums.EstadoPagamento;
+import com.joaodavid.springionic.model.enums.Perfil;
 import com.joaodavid.springionic.model.enums.TipoCliente;
 import com.joaodavid.springionic.repository.CategoriaRepository;
 import com.joaodavid.springionic.repository.CidadeRepository;
@@ -127,14 +128,22 @@ public class DBService {
 		Cliente cli1 = new Cliente(null,"Maria Silva","johnynobrega17@gmail.com","36378912377",TipoCliente.PESSOAFISICA,pe.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("23763323","93838392"));
 		
+		Cliente cli2 = new Cliente(null,"Ana Costa","steamuser699@gmail.com","89533644001",TipoCliente.PESSOAFISICA,pe.encode("123"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli1.getTelefones().addAll(Arrays.asList("23764423","91238392"));
+		
+		
 		Endereco e1 = new Endereco(null,"Rua Flores","300","Apto 203","Jardim","38220834",cli1,c1);
 		Endereco e2 = new Endereco(null,"Avenida Matos","105","Sala 800","Centro","38777012",cli1,c2);
+		Endereco e3 = new Endereco(null,"Avenida Floriano","2106",null,"Centro","23456789",cli2,c2);
 		
 		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 		
-		clienterepository.save(cli1);
+		clienterepository.saveAll(Arrays.asList(cli1,cli2));
 		enderecorepository.save(e1);
 		enderecorepository.save(e2);
+		enderecorepository.save(e3);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Pedido ped1 = new Pedido(null,sdf.parse("30/09/2017 10:32"),cli1,e1);

@@ -16,9 +16,12 @@ import com.joaodavid.springionic.DTO.ClienteNewDTO;
 import com.joaodavid.springionic.model.Cidade;
 import com.joaodavid.springionic.model.Cliente;
 import com.joaodavid.springionic.model.Endereco;
+import com.joaodavid.springionic.model.enums.Perfil;
 import com.joaodavid.springionic.model.enums.TipoCliente;
 import com.joaodavid.springionic.repository.ClienteRepository;
 import com.joaodavid.springionic.repository.EnderecoRepository;
+import com.joaodavid.springionic.security.UserSS;
+import com.joaodavid.springionic.service.exceptions.AuthorizationException;
 import com.joaodavid.springionic.service.exceptions.DataIntegrityException;
 import com.joaodavid.springionic.service.exceptions.ObjectNotFoundException;
 
@@ -35,6 +38,13 @@ public class ClienteService {
 	private BCryptPasswordEncoder pe;
 	
 	public Cliente findById(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+			
+		}
+		
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
